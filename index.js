@@ -15,10 +15,10 @@ function getDate(req, res, parsedUrl) {
     res.end(lang.greet(name, currentTime));
 }
 
-function readFile(req, res) {
-    fs.readFile("./files/file.txt", (err, data) => {
+function readFile(req, res, fileName) {
+    fs.readFile(`./files/${fileName}`, (err, data) => {
         if(err) {
-            return sendError(res, 404, lang.err404);
+            return sendError(res, 404, `${fileName} ${lang.err404}`);
         }
         res.write(data);
         res.end();
@@ -44,19 +44,21 @@ function sendError(res, status, msg) {
     res.write(`${status} ${msg}`);
     res.end();
 
+    //debug
     console.log(`${status} ${msg}`);
 }
 
 const server = http.createServer((req, res) => {
     const parsedUrl = new URL(req.url, `https://${req.headers.host}/`);
 
+    //Debugging
     console.log(req.url);
-    console.log(parsedUrl.pathname)
 
     if(parsedUrl.pathname === "/COMP4537/labs/3/getDate/") {
         getDate(req, res, parsedUrl);
-    } else if(parsedUrl.pathname === "/COMP4537/labs/3/readFile/file.txt") {
-        readFile(req, res);
+    } else if(parsedUrl.pathname.startsWith("/COMP4537/labs/3/readFile/")) {
+        const fileName = parsedUrl.pathname.slice("/COMP4537/labs/3/readFile/".length);
+        readFile(req, res, fileName);
     } else if(parsedUrl.pathname === "/COMP4537/labs/3/writeFile/") {
         writeFile(req, res, parsedUrl);
     } else {
