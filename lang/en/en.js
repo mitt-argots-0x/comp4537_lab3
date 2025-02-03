@@ -1,6 +1,6 @@
 module.exports = {
     greet: function(name, time) {
-        return `Hello ${name}, What a beautiful day. Server current date and time is ${time}`
+        return `<h2 style="color: blue;">Hello ${name}, What a beautiful day. Server current date and time is ${time}</h2>`
     },
     successWritten: "File has been successfully written",
     failWritten: "text: empty error",

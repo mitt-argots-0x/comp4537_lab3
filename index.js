@@ -11,7 +11,7 @@ function getDate(req, res, parsedUrl) {
 
     //Debugging #######################
     console.log(lang.greet(name, currentTime));
-
+    res.writeHead(200, {'Content-type':'text/html'});
     res.end(lang.greet(name, currentTime));
 }
 
